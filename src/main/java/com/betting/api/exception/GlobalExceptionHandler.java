@@ -20,53 +20,61 @@ import java.util.*;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 400);
-        response.put("error", "Validation failed");
+    public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(400);
+        error.setError("Validation failed");
+        error.setMessage(ex.getMessage());
 
+//        Map<String, Object> response = new LinkedHashMap<>();
+//        response.put("timestamp", LocalDateTime.now());
+//        response.put("status", 400);
+//        response.put("error", "Validation failed");
+//
         List<Map<String, String>> errors = new ArrayList<>();
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            Map<String, String> error = new HashMap<>();
-            error.put("field", fieldError.getField());
-            error.put("message", fieldError.getDefaultMessage());
-            errors.add(error);
+            Map<String, String> errorIn = new HashMap<>();
+            errorIn.put("field", fieldError.getField());
+            errorIn.put("message", fieldError.getDefaultMessage());
+            errors.add(errorIn);
         }
 
-        response.put("errors", errors);
+//        response.put("errors", errors);
+        error.setErrors(errors);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Map<String, Object>> handleBadRequest(BadRequestException ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 400);
-        response.put("error", "Bad Request");
-        response.put("message", ex.getMessage());
+    public ResponseEntity<ApiErrorResponse> handleBadRequest(BadRequestException ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(400);
+        error.setError("Bad Request");
+        error.setMessage(ex.getMessage());
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNoResourcesFound(ResourceNotFoundException ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 404);
-        response.put("error", "Resource not found");
-        response.put("message", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiErrorResponse> handleNoResourcesFound(ResourceNotFoundException ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(404);
+        error.setError("Resource not found");
+        error.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, Object>> handleParseError(HttpMessageNotReadableException ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 400);
-        response.put("error", "Invalid Format");
-        response.put("message", "Invalid request format");
+    public ResponseEntity<ApiErrorResponse> handleParseError(HttpMessageNotReadableException ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(400);
+        error.setError("Invalid Format");
+        error.setMessage("Invalid request format");
 
         Throwable cause = ex.getCause();
 
@@ -75,37 +83,37 @@ public class GlobalExceptionHandler {
             if (!path.isEmpty()) {
                 String fieldName = path.get(0).getFieldName();
                 if ("matchDate".equals(fieldName)) {
-                    response.put("message", "Invalid format for field 'match_date'. Expected format: dd/MM/yyyy");
+                    error.setMessage("Invalid format for field 'match_date'. Expected format: dd/MM/yyyy");
                 } else if ("matchTime".equals(fieldName)) {
-                    response.put("message", "Invalid format for field 'match_time'. Expected format: HH:mm");
+                    error.setMessage("Invalid format for field 'match_time'. Expected format: HH:mm");
                 } else {
-                    response.put("message", "Invalid format for field '" + fieldName + "'");
+                    error.setMessage("Invalid format for field '" + fieldName + "'");
                 }
             }
         }
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 404);
-        response.put("error", "Not found");
-        response.put("message", ex.getMessage());
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(404);
+        error.setError("Not found");
+        error.setMessage(ex.getMessage());
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleOther(Exception ex) {
-        Map<String, Object> response = new LinkedHashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", 500);
-        response.put("error", "Internal Server Error");
-        response.put("message", ex.getMessage());
+    public ResponseEntity<ApiErrorResponse> handleOther(Exception ex) {
+        ApiErrorResponse error = new ApiErrorResponse();
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(500);
+        error.setError("Internal Server Error");
+        error.setMessage(ex.getMessage());
 
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

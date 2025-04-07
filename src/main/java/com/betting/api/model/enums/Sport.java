@@ -2,6 +2,7 @@ package com.betting.api.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 /**
@@ -10,7 +11,9 @@ import lombok.Getter;
 
 @Getter
 public enum Sport {
+    @Schema(description = "Football", example = "1")
     FOOTBALL(1),
+    @Schema(description = "Basketball", example = "2")
     BASKETBALL(2);
 
     private final int value;

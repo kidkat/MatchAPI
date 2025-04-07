@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "dc1eb8e1-afdd-43ef-ac6b-eec10c408ccc",
+		"name": "MatchApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38699729"
+	},
+	"item": [
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "GetAllMatches",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/matches",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMatchById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/matches/10",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"matches",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateMatch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"test\",\r\n    \"match_date\": \"25/06/2025\",\r\n    \"match_time\": \"13:00\",\r\n    \"team_a\": \"osfp\",\r\n    \"team_b\": \"Pao\",\r\n    \"sport\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/matches",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"matches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMatch",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sport\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/matches/11",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"matches",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMatch",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/matches/10",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"matches",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Match Odds",
+			"item": [
+				{
+					"name": "GetAllOdds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/odds",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"odds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOddById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/odds/11",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"odds",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateOdd",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"specifier\": \"X\",\r\n    \"odd\": 1.0,\r\n    \"match_id\": 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/odds",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"odds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateOdd",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"odd\": 1.1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/odds/2",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"odds",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOdd",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{prefix}}://{{server}}:{{port}}/odds/1",
+							"protocol": "{{prefix}}",
+							"host": [
+								"{{server}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"odds",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "swagger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{prefix}}://{{server}}:{{port}}/swagger-ui/index.html",
+					"protocol": "{{prefix}}",
+					"host": [
+						"{{server}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"swagger-ui",
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

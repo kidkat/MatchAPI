@@ -3,7 +3,6 @@ package com.betting.api.repository;
 import com.betting.api.model.Match;
 import com.betting.api.model.MatchOdd;
 import com.betting.api.model.enums.Sport;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -40,21 +39,43 @@ class MatchOddsRepositoryTest {
         return matchRepository.save(match);
     }
 
+    private void createAndSaveMatchOdd(String specifier, double odd, Match match) {
+        MatchOdd matchOdd = new MatchOdd();
+        matchOdd.setSpecifier(specifier);
+        matchOdd.setOdd(odd);
+        matchOdd.setMatch(match);
+
+        matchOddsRepository.save(matchOdd);
+    }
+
     @Test
-    void shouldSaveMatchOdd() {
+    void getOddByMatchId() {
         Match match = createAndSaveMatch();
 
         MatchOdd odd = new MatchOdd();
-        odd.setSpecifier("1");
+        odd.setSpecifier("y");
         odd.setOdd(2.25);
         odd.setMatch(match);
 
-        MatchOdd saved = matchOddsRepository.save(odd);
+        MatchOdd odd2 = new MatchOdd();
+        odd.setSpecifier("x");
+        odd.setOdd(5.00);
+        odd.setMatch(match);
 
-        assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getMatch().getId()).isEqualTo(match.getId());
-        assertThat(saved.getSpecifier()).isEqualTo("1");
-        assertThat(saved.getOdd()).isEqualTo(2.25);
+        createAndSaveMatchOdd("y", 2.25, match);
+        createAndSaveMatchOdd("x", 5.00, match);
+
+        List<MatchOdd> oddsList = matchOddsRepository.findAll();
+
+        assertThat(oddsList.get(0).getId()).isNotNull();
+        assertThat(oddsList.get(0).getMatch().getId()).isEqualTo(match.getId());
+        assertThat(oddsList.get(0).getSpecifier()).isEqualTo("y");
+        assertThat(oddsList.get(0).getOdd()).isEqualTo(2.25);
+
+        assertThat(oddsList.get(1).getId()).isNotNull();
+        assertThat(oddsList.get(1).getMatch().getId()).isEqualTo(match.getId());
+        assertThat(oddsList.get(1).getSpecifier()).isEqualTo("x");
+        assertThat(oddsList.get(1).getOdd()).isEqualTo(5.00);
     }
 
     @Test
